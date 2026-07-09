@@ -1,0 +1,489 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>s1ja — Roblox Systems Developer</title>
+<meta name="description" content="Roblox scripter specializing in server-authoritative combat, economy, and RNG systems. Clean, typed Luau. Real DataStore persistence." />
+<meta property="og:title" content="s1ja — Roblox Systems Developer" />
+<meta property="og:description" content="Server-authoritative combat, economy, and RNG systems for Roblox. Clean architecture, real persistence." />
+<meta property="og:type" content="website" />
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23161a24'/%3E%3Crect x='4' y='4' width='92' height='92' rx='16' fill='none' stroke='%234296F0' stroke-width='5'/%3E%3Ctext x='50' y='66' font-size='46' font-family='monospace' font-weight='bold' fill='%234296F0' text-anchor='middle'%3Es1%3C/text%3E%3C/svg%3E" />
+<style>
+  :root {
+    --bg: #0a0b0f;
+    --bg-elevated: #111319;
+    --card: #14161d;
+    --card-border: #23262f;
+    --text: #e9eaee;
+    --text-muted: #8b8f9b;
+    --text-dim: #4d5160;
+
+    --success: #4cd169;
+    --info: #4296f0;
+    --premium: #b266ff;
+    --warning: #ffaf40;
+    --danger: #eb4646;
+
+    --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --radius: 12px;
+  }
+
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 24px; }
+
+  ::selection { background: var(--info); color: #06111f; }
+
+  /* ---------- NAV ---------- */
+  header.nav {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(10, 11, 15, 0.85);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--card-border);
+  }
+  .nav-inner { display: flex; align-items: center; justify-content: space-between; height: 60px; }
+  .brand {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 0.98rem;
+    letter-spacing: -0.01em;
+    color: var(--text);
+  }
+  .brand span { color: var(--info); }
+  .nav-links { display: flex; align-items: center; gap: 26px; font-size: 0.88rem; color: var(--text-muted); }
+  .nav-links a { position: relative; padding: 4px 0; }
+  .nav-links a:hover { color: var(--text); }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 0.86rem;
+    border: 1px solid var(--card-border);
+    cursor: pointer;
+    background: transparent;
+    color: var(--text);
+    transition: border-color 0.15s ease, background 0.15s ease;
+  }
+  .btn:hover { border-color: var(--text-dim); background: var(--bg-elevated); }
+  .btn-primary { background: var(--text); color: var(--bg); border-color: var(--text); font-weight: 700; }
+  .btn-primary:hover { background: #cfd2d8; border-color: #cfd2d8; }
+  .nav-cta { display: none; }
+  @media (min-width: 720px) { .nav-cta { display: inline-flex; } }
+
+  /* ---------- HERO ---------- */
+  .hero {
+    padding: 80px 0 60px;
+    display: grid;
+    gap: 48px;
+    grid-template-columns: 1fr;
+    align-items: center;
+  }
+  @media (min-width: 900px) { .hero { grid-template-columns: 1.05fr 1fr; padding: 96px 0 72px; } }
+
+  .kicker-line {
+    font-family: var(--mono);
+    font-size: 0.82rem;
+    color: var(--info);
+    margin-bottom: 18px;
+  }
+  .kicker-line::before { content: "// "; color: var(--text-dim); }
+
+  h1 {
+    font-size: clamp(2rem, 4.4vw, 2.85rem);
+    line-height: 1.14;
+    letter-spacing: -0.025em;
+    margin: 0 0 20px;
+    font-weight: 800;
+  }
+  h1 .accent { color: var(--info); }
+
+  .hero p.sub {
+    color: var(--text-muted);
+    font-size: 1.02rem;
+    max-width: 480px;
+    margin: 0 0 30px;
+  }
+
+  .hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; margin-bottom: 34px; }
+  .hero-ctas .btn { padding: 11px 20px; }
+
+  .stack-strip {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--text-dim);
+  }
+  .stack-strip span {
+    border: 1px solid var(--card-border);
+    border-radius: 6px;
+    padding: 4px 9px;
+  }
+
+  /* code panel */
+  .code-panel {
+    background: var(--bg-elevated);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    box-shadow: 0 20px 60px -30px rgba(0,0,0,0.7);
+  }
+  .code-panel-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--card-border);
+  }
+  .code-panel-head .traffic { display: flex; gap: 6px; }
+  .code-panel-head .traffic i { width: 10px; height: 10px; border-radius: 50%; display: block; }
+  .code-panel-head .traffic i:nth-child(1) { background: #ff5f57; }
+  .code-panel-head .traffic i:nth-child(2) { background: #febc2e; }
+  .code-panel-head .traffic i:nth-child(3) { background: #28c840; }
+  .code-panel-head .filename {
+    font-family: var(--mono);
+    font-size: 0.76rem;
+    color: var(--text-dim);
+    margin-left: 4px;
+  }
+  .code-panel pre {
+    margin: 0;
+    padding: 18px 16px;
+    overflow-x: auto;
+    font-family: var(--mono);
+    font-size: 0.79rem;
+    line-height: 1.65;
+  }
+  .code-panel code { color: var(--text-muted); }
+  .tok-kw { color: #ff7ab6; }
+  .tok-fn { color: #4296f0; }
+  .tok-str { color: #4cd169; }
+  .tok-com { color: var(--text-dim); font-style: italic; }
+  .tok-num { color: #ffaf40; }
+
+  /* ---------- SECTIONS ---------- */
+  section { padding: 64px 0; border-top: 1px solid var(--card-border); }
+  .hero { border-top: none; }
+
+  .section-head { margin-bottom: 36px; max-width: 560px; }
+  .section-head .kicker-line { margin-bottom: 10px; }
+  .section-head h2 {
+    font-size: clamp(1.5rem, 2.8vw, 1.95rem);
+    letter-spacing: -0.02em;
+    margin: 0 0 10px;
+    font-weight: 800;
+  }
+  .section-head p { color: var(--text-muted); margin: 0; }
+
+  /* ---------- PROJECTS ---------- */
+  .projects { display: grid; gap: 16px; grid-template-columns: 1fr; }
+  @media (min-width: 800px) { .projects { grid-template-columns: 1fr 1fr; } }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--card-border);
+    border-radius: var(--radius);
+    padding: 26px;
+    display: flex;
+    flex-direction: column;
+    transition: border-color 0.2s ease;
+  }
+  .card:hover { border-color: var(--accent, var(--info)); }
+
+  .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
+  .tag {
+    font-family: var(--mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+  }
+  .tag::before { content: "#"; opacity: 0.6; margin-right: 2px; }
+
+  .card h3 { font-size: 1.15rem; margin: 0 0 8px; letter-spacing: -0.01em; font-weight: 700; }
+  .card > p.desc { color: var(--text-muted); font-size: 0.9rem; margin: 0 0 16px; }
+
+  .feature-list { list-style: none; margin: 0 0 20px; padding: 0; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .feature-list li {
+    font-size: 0.85rem;
+    color: var(--text);
+    padding-left: 16px;
+    position: relative;
+  }
+  .feature-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+    font-size: 0.8rem;
+  }
+
+  .card-links { margin-top: auto; }
+  .card-links .btn { padding: 8px 14px; font-size: 0.82rem; }
+
+  .card[data-accent="success"] { --accent: var(--success); }
+  .card[data-accent="info"] { --accent: var(--info); }
+  .card[data-accent="premium"] { --accent: var(--premium); }
+  .card[data-accent="danger"] { --accent: var(--danger); }
+
+  /* ---------- APPROACH ---------- */
+  .principles { display: grid; gap: 1px; background: var(--card-border); border: 1px solid var(--card-border); border-radius: var(--radius); overflow: hidden; grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .principles { grid-template-columns: 1fr 1fr; } }
+  @media (min-width: 1000px) { .principles { grid-template-columns: 1fr 1fr 1fr; } }
+
+  .principle { background: var(--bg-elevated); padding: 22px; }
+  .principle .num { font-family: var(--mono); font-size: 0.76rem; color: var(--text-dim); margin-bottom: 10px; }
+  .principle h4 { margin: 0 0 8px; font-size: 0.98rem; font-weight: 700; }
+  .principle p { margin: 0; color: var(--text-muted); font-size: 0.85rem; }
+
+  /* ---------- CONTACT ---------- */
+  .contact-inner {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+    align-items: flex-start;
+  }
+  @media (min-width: 700px) {
+    .contact-inner { flex-direction: row; align-items: center; justify-content: space-between; }
+  }
+  #contact .section-head { margin-bottom: 0; }
+  .contact-ctas { display: flex; gap: 10px; flex-wrap: wrap; flex: none; }
+  .btn-discord { background: #5865f2; color: white; border-color: #5865f2; }
+  .btn-discord:hover { background: #4a54d6; border-color: #4a54d6; }
+
+  footer {
+    padding: 28px 0 44px;
+    color: var(--text-dim);
+    font-size: 0.8rem;
+    font-family: var(--mono);
+  }
+  footer a:hover { color: var(--text-muted); }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="wrap nav-inner">
+    <div class="brand">s1ja<span>.dev</span></div>
+    <nav class="nav-links">
+      <a href="#projects">projects</a>
+      <a href="#approach">approach</a>
+      <a href="#contact">contact</a>
+    </nav>
+    <a class="btn btn-primary nav-cta" href="#contact">Hire me</a>
+  </div>
+</header>
+
+<main>
+  <section class="hero wrap">
+    <div>
+      <div class="kicker-line">roblox scripter, systems &amp; backend</div>
+      <h1>Game systems that stay correct<br>when <span class="accent">players try to break them.</span></h1>
+      <p class="sub">
+        Combat, shops, monetization, RNG — I build the parts of a Roblox game
+        that have to be right the first time, because real money and real
+        exploiters are both on the other end of every remote.
+      </p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="#projects">See the projects</a>
+        <a class="btn" href="#contact">Get in touch</a>
+      </div>
+      <div class="stack-strip">
+        <span>Luau</span><span>--!strict</span><span>Rojo</span><span>DataStoreService</span><span>MarketplaceService</span><span>RemoteEvent</span>
+      </div>
+    </div>
+
+    <div class="code-panel">
+      <div class="code-panel-head">
+        <div class="traffic"><i></i><i></i><i></i></div>
+        <span class="filename">ShopService.luau</span>
+      </div>
+      <pre><code><span class="tok-com">-- client sends an item id. that's it.</span>
+<span class="tok-kw">local function</span> <span class="tok-fn">onRequestBuyItem</span>(player, itemId)
+  <span class="tok-kw">if</span> <span class="tok-fn">typeof</span>(itemId) ~= <span class="tok-str">"string"</span> <span class="tok-kw">then</span> <span class="tok-kw">return end</span>
+
+  <span class="tok-kw">local</span> item = ItemConfig.GetById(itemId)
+  <span class="tok-kw">if not</span> item <span class="tok-kw">then</span> <span class="tok-kw">return end</span>
+
+  <span class="tok-kw">if</span> profile.Currency.Coins &lt; item.ShopPriceCoins <span class="tok-kw">then</span>
+    firePurchaseFailed(player, <span class="tok-str">"NotEnoughCoins"</span>)
+    <span class="tok-kw">return</span>
+  <span class="tok-kw">end</span>
+  <span class="tok-kw">if not</span> InventoryService.HasCapacity(player, itemId, <span class="tok-num">1</span>) <span class="tok-kw">then</span>
+    firePurchaseFailed(player, <span class="tok-str">"InventoryFull"</span>)
+    <span class="tok-kw">return</span>
+  <span class="tok-kw">end</span>
+
+  profile.Currency.Coins -= item.ShopPriceCoins
+  InventoryService.AddItem(player, itemId, <span class="tok-num">1</span>)
+<span class="tok-kw">end</span></code></pre>
+    </div>
+  </section>
+
+  <section id="projects" class="wrap">
+    <div class="section-head">
+      <div class="kicker-line">portfolio</div>
+      <h2>Four systems, four genres, one set of rules</h2>
+      <p>Each project is a self-contained Rojo codebase. Source is public — click through and read it.</p>
+    </div>
+
+    <div class="projects">
+
+      <div class="card" data-accent="success">
+        <div class="card-top"><span class="tag">flagship-full-game</span></div>
+        <h3>"+1 Speed" Backrooms Escape</h3>
+        <p class="desc">A full incremental/idle loop set in the Backrooms — run to earn, level your speed, prestige for a permanent multiplier, while a personal monster hunts you if you fall behind.</p>
+        <ul class="feature-list">
+          <li>Currency → Level → Rebirth loop with a permanent prestige multiplier</li>
+          <li>DataStore persistence with retry/backoff, staggered autosave, safe shutdown save budget</li>
+          <li>Live OrderedDataStore leaderboard</li>
+          <li>Idempotent Robux purchases — dupe-proof via a persisted purchase ledger</li>
+          <li>Per-player personal monster AI, private chase state, no shared visible instance</li>
+        </ul>
+        <div class="card-links">
+          <a class="btn" href="https://github.com/s1ja-dev/backrooms-try" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card" data-accent="danger">
+        <div class="card-top"><span class="tag">combat</span></div>
+        <h3>Combat System Demo</h3>
+        <p class="desc">Ranged combat built around one rule: the server decides who got hit, never the client.</p>
+        <ul class="feature-list">
+          <li>Server-side raycast hit validation — cooldown, distance, per-body-part detection</li>
+          <li>Real headshot multiplier resolved from the hit body part, not a client-reported flag</li>
+          <li>Ragdoll death and clean respawn via re-clone</li>
+          <li>Hit VFX/SFX driven by server-verified hit events, kill feed, floating damage numbers</li>
+        </ul>
+        <div class="card-links">
+          <a class="btn" href="https://github.com/s1ja-dev/combat-system-demo" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card" data-accent="info">
+        <div class="card-top"><span class="tag">economy-monetization</span></div>
+        <h3>Shop / Inventory / Settings Suite</h3>
+        <p class="desc">The unglamorous system every game needs: buy, own, save, and know exactly why a purchase failed.</p>
+        <ul class="feature-list">
+          <li>Pull-based profile sync — client requests its snapshot when ready, no push-race on join</li>
+          <li>Server-validated purchases (soft currency &amp; Robux) with real capacity checks</li>
+          <li>Failed purchases surface a real client toast, never a silent no-op</li>
+          <li>Timed buffs recomputed from a fixed base — re-buying can never compound</li>
+        </ul>
+        <div class="card-links">
+          <a class="btn" href="https://github.com/s1ja-dev/shop-inventory-suite-demo" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+      <div class="card" data-accent="premium">
+        <div class="card-top"><span class="tag">rng-rounds</span></div>
+        <h3>RNG Rewards + Round Manager</h3>
+        <p class="desc">Gacha-style rewards and round-based lobbies, both built on a roll the client can't see coming or influence.</p>
+        <ul class="feature-list">
+          <li>Weighted RNG validated against 100,000 simulated rolls matching target odds to a fraction of a percent</li>
+          <li>Generic Waiting → Intermission → InRound → Ended state machine, reusable for any round mode</li>
+          <li>Spin gated to the Intermission window server-side, not just hidden in the UI</li>
+          <li>Reveal animation only ever plays a result the server already decided</li>
+        </ul>
+        <div class="card-links">
+          <a class="btn" href="https://github.com/s1ja-dev/rng-rewards-round-demo" target="_blank" rel="noopener">View source →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section id="approach" class="wrap">
+    <div class="section-head">
+      <div class="kicker-line">how i work</div>
+      <h2>The same rules on every project</h2>
+      <p>Not slogans — every one of these is enforced in the code linked above.</p>
+    </div>
+
+    <div class="principles">
+      <div class="principle">
+        <div class="num">01</div>
+        <h4>Server-authoritative by default</h4>
+        <p>The client sends intent, never numbers. Damage, prices, RNG outcomes, and round state are decided and owned server-side.</p>
+      </div>
+      <div class="principle">
+        <div class="num">02</div>
+        <h4>Idempotent monetization</h4>
+        <p>Every Robux purchase is checked against a persisted ledger before granting — safe under Roblox's automatic ProcessReceipt retries.</p>
+      </div>
+      <div class="principle">
+        <div class="num">03</div>
+        <h4>Defensive DataStore</h4>
+        <p>pcall + backoff on every read/write, staggered autosaves, a real save budget on BindToClose. Data loss is a bug class, not an edge case.</p>
+      </div>
+      <div class="principle">
+        <div class="num">04</div>
+        <h4>Typed, strict Luau</h4>
+        <p>--!strict everywhere, shared Signal/Trove/Class primitives reused across projects instead of reinvented per game.</p>
+      </div>
+      <div class="principle">
+        <div class="num">05</div>
+        <h4>One-directional data flow</h4>
+        <p>Remotes → state → UI render. The client never mutates game state directly.</p>
+      </div>
+      <div class="principle">
+        <div class="num">06</div>
+        <h4>Verified before it's called done</h4>
+        <p>Every system was exercised live in Play mode — distribution checks, timing checks, full state-machine walkthroughs.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="wrap">
+    <div class="contact-inner">
+      <div class="section-head">
+        <div class="kicker-line">contact</div>
+        <h2>Have a system that needs building?</h2>
+        <p>Send me the details and I'll give you an honest scope before we start.</p>
+      </div>
+      <div class="contact-ctas">
+        <button class="btn btn-discord" id="discordCopyBtn" type="button">Discord: killer2283378106 <span id="discordCopyLabel">(copy)</span></button>
+        <a class="btn" href="mailto:kamor.gomel@gmail.com">Email</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="wrap">
+  <a href="https://github.com/s1ja-dev" target="_blank" rel="noopener">github.com/s1ja-dev</a>
+</footer>
+
+<script>
+  var copyBtn = document.getElementById("discordCopyBtn");
+  var copyLabel = document.getElementById("discordCopyLabel");
+  copyBtn.addEventListener("click", function () {
+    navigator.clipboard.writeText("killer2283378106").then(function () {
+      copyLabel.textContent = "(copied!)";
+      setTimeout(function () {
+        copyLabel.textContent = "(copy)";
+      }, 1800);
+    });
+  });
+</script>
+
+</body>
+</html>
