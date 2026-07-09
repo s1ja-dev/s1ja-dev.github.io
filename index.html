@@ -211,6 +211,16 @@
   }
   .card:hover { border-color: var(--accent, var(--info)); }
 
+  .card-media {
+    width: calc(100% + 52px);
+    margin: -26px -26px 18px;
+    aspect-ratio: 16 / 9;
+    background: var(--bg-elevated);
+    border-bottom: 1px solid var(--card-border);
+    overflow: hidden;
+  }
+  .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
   .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   .tag {
     font-family: var(--mono);
@@ -349,6 +359,7 @@
     <div class="projects">
 
       <div class="card" data-accent="success">
+        <div class="card-media"><img src="media/backrooms.gif" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
         <div class="card-top"><span class="tag">flagship-full-game</span></div>
         <h3>"+1 Speed" Backrooms Escape</h3>
         <p class="desc">A full incremental/idle loop set in the Backrooms — run to earn, level your speed, prestige for a permanent multiplier, while a personal monster hunts you if you fall behind.</p>
@@ -365,6 +376,7 @@
       </div>
 
       <div class="card" data-accent="danger">
+        <div class="card-media"><img src="media/combat.gif" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
         <div class="card-top"><span class="tag">combat</span></div>
         <h3>Combat System Demo</h3>
         <p class="desc">Ranged combat built around one rule: the server decides who got hit, never the client.</p>
@@ -380,6 +392,7 @@
       </div>
 
       <div class="card" data-accent="info">
+        <div class="card-media"><img src="media/shop.gif" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
         <div class="card-top"><span class="tag">economy-monetization</span></div>
         <h3>Shop / Inventory / Settings Suite</h3>
         <p class="desc">The unglamorous system every game needs: buy, own, save, and know exactly why a purchase failed.</p>
@@ -395,6 +408,7 @@
       </div>
 
       <div class="card" data-accent="premium">
+        <div class="card-media"><img src="media/rng.gif" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
         <div class="card-top"><span class="tag">rng-rounds</span></div>
         <h3>RNG Rewards + Round Manager</h3>
         <p class="desc">Gacha-style rewards and round-based lobbies, both built on a roll the client can't see coming or influence.</p>
