@@ -219,7 +219,8 @@
     border-bottom: 1px solid var(--card-border);
     overflow: hidden;
   }
-  .card-media img, .card-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-media video { width: 100%; height: 100%; object-fit: contain; display: block; }
 
   .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   .tag {
@@ -376,7 +377,7 @@
       </div>
 
       <div class="card" data-accent="danger">
-        <div class="card-media"><video class="lazy-video" data-src="media/combat.mp4" style="object-position: 80% center;" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
+        <div class="card-media"><video class="lazy-video" data-src="media/combat.mp4" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
         <div class="card-top"><span class="tag">combat</span></div>
         <h3>Combat System Demo</h3>
         <p class="desc">Ranged combat built around one rule: the server decides who got hit, never the client.</p>
