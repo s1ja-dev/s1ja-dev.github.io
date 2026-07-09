@@ -8,6 +8,13 @@
 <meta property="og:title" content="s1ja — Roblox Systems Developer" />
 <meta property="og:description" content="Server-authoritative combat, economy, and RNG systems for Roblox. Clean architecture, real persistence." />
 <meta property="og:type" content="website" />
+<meta property="og:image" content="https://s1ja-dev.github.io/og-image.png" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="s1ja — Roblox Systems Developer" />
+<meta name="twitter:description" content="Server-authoritative combat, economy, and RNG systems for Roblox. Clean architecture, real persistence." />
+<meta name="twitter:image" content="https://s1ja-dev.github.io/og-image.png" />
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23161a24'/%3E%3Crect x='4' y='4' width='92' height='92' rx='16' fill='none' stroke='%234296F0' stroke-width='5'/%3E%3Ctext x='50' y='66' font-size='46' font-family='monospace' font-weight='bold' fill='%234296F0' text-anchor='middle'%3Es1%3C/text%3E%3C/svg%3E" />
 <style>
   :root {
@@ -95,10 +102,10 @@
     padding: 80px 0 60px;
     display: grid;
     gap: 48px;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     align-items: center;
   }
-  @media (min-width: 900px) { .hero { grid-template-columns: 1.05fr 1fr; padding: 96px 0 72px; } }
+  @media (min-width: 900px) { .hero { grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); padding: 96px 0 72px; } }
 
   .kicker-line {
     font-family: var(--mono);
@@ -133,7 +140,7 @@
     gap: 8px;
     font-family: var(--mono);
     font-size: 0.76rem;
-    color: var(--text-dim);
+    color: var(--text-muted);
   }
   .stack-strip span {
     border: 1px solid var(--card-border);
@@ -197,8 +204,8 @@
   .section-head p { color: var(--text-muted); margin: 0; }
 
   /* ---------- PROJECTS ---------- */
-  .projects { display: grid; gap: 16px; grid-template-columns: 1fr; }
-  @media (min-width: 800px) { .projects { grid-template-columns: 1fr 1fr; } }
+  .projects { display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 800px) { .projects { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
 
   .card {
     background: var(--card);
@@ -257,9 +264,9 @@
   .card[data-accent="danger"] { --accent: var(--danger); }
 
   /* ---------- APPROACH ---------- */
-  .principles { display: grid; gap: 1px; background: var(--card-border); border: 1px solid var(--card-border); border-radius: var(--radius); overflow: hidden; grid-template-columns: 1fr; }
-  @media (min-width: 700px) { .principles { grid-template-columns: 1fr 1fr; } }
-  @media (min-width: 1000px) { .principles { grid-template-columns: 1fr 1fr 1fr; } }
+  .principles { display: grid; gap: 1px; background: var(--card-border); border: 1px solid var(--card-border); border-radius: var(--radius); overflow: hidden; grid-template-columns: minmax(0, 1fr); }
+  @media (min-width: 700px) { .principles { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); } }
+  @media (min-width: 1000px) { .principles { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr); } }
 
   .principle { background: var(--bg-elevated); padding: 22px; }
   .principle .num { font-family: var(--mono); font-size: 0.76rem; color: var(--text-dim); margin-bottom: 10px; }
@@ -360,7 +367,7 @@
     <div class="projects">
 
       <div class="card" data-accent="success">
-        <div class="card-media"><video class="lazy-video" data-src="media/backrooms.mp4" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
+        <div class="card-media"><video class="lazy-video" data-src="media/backrooms.mp4" poster="media/backrooms-poster.png" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
         <div class="card-top"><span class="tag">flagship-full-game</span></div>
         <h3>"+1 Speed" Backrooms Escape</h3>
         <p class="desc">A full incremental/idle loop set in the Backrooms — run to earn, level your speed, prestige for a permanent multiplier, while a personal monster hunts you if you fall behind.</p>
@@ -377,7 +384,7 @@
       </div>
 
       <div class="card" data-accent="danger">
-        <div class="card-media"><video class="lazy-video" data-src="media/combat.mp4" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
+        <div class="card-media"><video class="lazy-video" data-src="media/combat.mp4" poster="media/combat-poster.png" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
         <div class="card-top"><span class="tag">combat</span></div>
         <h3>Combat System Demo</h3>
         <p class="desc">Ranged combat built around one rule: the server decides who got hit, never the client.</p>
@@ -393,7 +400,7 @@
       </div>
 
       <div class="card" data-accent="info">
-        <div class="card-media"><video class="lazy-video" data-src="media/shop.mp4" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
+        <div class="card-media"><video class="lazy-video" data-src="media/shop.mp4" poster="media/shop-poster.png" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
         <div class="card-top"><span class="tag">economy-monetization</span></div>
         <h3>Shop / Inventory / Settings Suite</h3>
         <p class="desc">The unglamorous system every game needs: buy, own, save, and know exactly why a purchase failed.</p>
@@ -409,7 +416,7 @@
       </div>
 
       <div class="card" data-accent="premium">
-        <div class="card-media"><video class="lazy-video" data-src="media/rng.mp4" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
+        <div class="card-media"><video class="lazy-video" data-src="media/rng.mp4" poster="media/rng-poster.png" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
         <div class="card-top"><span class="tag">rng-rounds</span></div>
         <h3>RNG Rewards + Round Manager</h3>
         <p class="desc">Gacha-style rewards and round-based lobbies, both built on a roll the client can't see coming or influence.</p>
@@ -496,6 +503,11 @@
       setTimeout(function () {
         copyLabel.textContent = "(copy)";
       }, 1800);
+    }).catch(function () {
+      copyLabel.textContent = "(copy failed — type it manually)";
+      setTimeout(function () {
+        copyLabel.textContent = "(copy)";
+      }, 2200);
     });
   });
 

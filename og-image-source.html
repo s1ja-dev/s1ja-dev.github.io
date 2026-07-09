@@ -1,0 +1,97 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    width: 1200px;
+    height: 630px;
+    background: #0a0b0f;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    overflow: hidden;
+  }
+  .grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 48px 48px;
+  }
+  .glow {
+    position: absolute;
+    top: -200px;
+    right: -160px;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(66,150,240,0.22), transparent 70%);
+  }
+  .wrap {
+    position: relative;
+    width: 1200px;
+    height: 630px;
+    padding: 72px 76px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+  .brand {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 26px;
+    font-weight: 700;
+    color: #e9eaee;
+  }
+  .brand span { color: #4296f0; }
+  .kicker {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 20px;
+    color: #4296f0;
+    margin-bottom: 22px;
+  }
+  .kicker::before { content: "// "; color: #4d5160; }
+  h1 {
+    font-size: 58px;
+    line-height: 1.14;
+    letter-spacing: -0.02em;
+    color: #e9eaee;
+    font-weight: 800;
+    max-width: 920px;
+  }
+  h1 .accent { color: #4296f0; }
+  .tags {
+    display: flex;
+    gap: 12px;
+    margin-top: 36px;
+  }
+  .tag {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 17px;
+    padding: 9px 16px;
+    border-radius: 8px;
+    border: 1px solid;
+  }
+  .tag.success { color: #4cd169; border-color: rgba(76,209,105,0.4); background: rgba(76,209,105,0.08); }
+  .tag.danger { color: #eb4646; border-color: rgba(235,70,70,0.4); background: rgba(235,70,70,0.08); }
+  .tag.info { color: #4296f0; border-color: rgba(66,150,240,0.4); background: rgba(66,150,240,0.08); }
+  .tag.premium { color: #b266ff; border-color: rgba(178,102,255,0.4); background: rgba(178,102,255,0.08); }
+</style>
+</head>
+<body>
+  <div class="grid"></div>
+  <div class="glow"></div>
+  <div class="wrap">
+    <div class="brand">s1ja<span>.dev</span></div>
+    <div>
+      <div class="kicker">roblox scripter, systems &amp; backend</div>
+      <h1>Game systems that stay correct<br>when <span class="accent">players try to break them.</span></h1>
+      <div class="tags">
+        <span class="tag danger">combat</span>
+        <span class="tag info">economy · monetization</span>
+        <span class="tag premium">rng · rounds</span>
+        <span class="tag success">full game</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
