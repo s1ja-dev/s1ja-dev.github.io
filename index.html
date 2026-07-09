@@ -219,7 +219,7 @@
     border-bottom: 1px solid var(--card-border);
     overflow: hidden;
   }
-  .card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  .card-media img, .card-media video { width: 100%; height: 100%; object-fit: cover; display: block; }
 
   .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; }
   .tag {
@@ -359,7 +359,7 @@
     <div class="projects">
 
       <div class="card" data-accent="success">
-        <div class="card-media"><img src="media/backrooms.gif" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+        <div class="card-media"><video class="lazy-video" data-src="media/backrooms.mp4" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
         <div class="card-top"><span class="tag">flagship-full-game</span></div>
         <h3>"+1 Speed" Backrooms Escape</h3>
         <p class="desc">A full incremental/idle loop set in the Backrooms — run to earn, level your speed, prestige for a permanent multiplier, while a personal monster hunts you if you fall behind.</p>
@@ -376,7 +376,7 @@
       </div>
 
       <div class="card" data-accent="danger">
-        <div class="card-media"><img src="media/combat.gif" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+        <div class="card-media"><video class="lazy-video" data-src="media/combat.mp4" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
         <div class="card-top"><span class="tag">combat</span></div>
         <h3>Combat System Demo</h3>
         <p class="desc">Ranged combat built around one rule: the server decides who got hit, never the client.</p>
@@ -392,7 +392,7 @@
       </div>
 
       <div class="card" data-accent="info">
-        <div class="card-media"><img src="media/shop.gif" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+        <div class="card-media"><video class="lazy-video" data-src="media/shop.mp4" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
         <div class="card-top"><span class="tag">economy-monetization</span></div>
         <h3>Shop / Inventory / Settings Suite</h3>
         <p class="desc">The unglamorous system every game needs: buy, own, save, and know exactly why a purchase failed.</p>
@@ -408,7 +408,7 @@
       </div>
 
       <div class="card" data-accent="premium">
-        <div class="card-media"><img src="media/rng.gif" alt="" loading="lazy" onerror="this.parentElement.remove()"></div>
+        <div class="card-media"><video class="lazy-video" data-src="media/rng.mp4" muted loop playsinline preload="none" onerror="this.parentElement.remove()"></video></div>
         <div class="card-top"><span class="tag">rng-rounds</span></div>
         <h3>RNG Rewards + Round Manager</h3>
         <p class="desc">Gacha-style rewards and round-based lobbies, both built on a roll the client can't see coming or influence.</p>
@@ -496,6 +496,27 @@
         copyLabel.textContent = "(copy)";
       }, 1800);
     });
+  });
+
+  // Lazy-load + autoplay the project preview clips only once their card is
+  // actually on screen, and pause them again once scrolled away, so the
+  // page doesn't pull ~20MB of video on first load.
+  var lazyVideos = document.querySelectorAll("video.lazy-video");
+  var videoObserver = new IntersectionObserver(function (entries) {
+    entries.forEach(function (entry) {
+      var video = entry.target;
+      if (entry.isIntersecting) {
+        if (!video.src) {
+          video.src = video.dataset.src;
+        }
+        video.play().catch(function () {});
+      } else {
+        video.pause();
+      }
+    });
+  }, { rootMargin: "100px" });
+  lazyVideos.forEach(function (video) {
+    videoObserver.observe(video);
   });
 </script>
 
